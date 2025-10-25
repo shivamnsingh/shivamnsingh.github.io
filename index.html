@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shivam Singh - Data Analyst Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ==================== CSS VARIABLES - SOFT PIXEL PALETTE ==================== */
+        :root {
+            --sky-blue: #87CEEB;
+            --sky-light: #B0E0F6;
+            --sky-dark: #6CB4D8;
+            --grass-green: #7EC850;
+            --grass-dark: #5E9C3A;
+            --dirt-brown: #8B6F47;
+            --stone-gray: #808080;
+            --cream: #FFF8DC;
+            --wood-brown: #A0826D;
+            --sand: #F4E4C1;
+            --white: #FFFFFF;
+            --text-dark: #3E2723;
+            --shadow: rgba(0, 0, 0, 0.2);
+            --pixel-border: 4px;
+        }
+
+        /* ==================== RESET & BASE ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+
+        body {
+            font-family: 'Silkscreen', monospace;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: var(--sky-blue);
+            font-size: 13px;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Pixelated Sky Background with Clouds */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(to bottom, 
+                    var(--sky-light) 0%, 
+                    var(--sky-blue) 50%, 
+                    var(--sky-dark) 100%);
+            z-index: -2;
+        }
+
+        /* Animated Clouds */
+        .cloud {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 0;
+            z-index: 0;
+            image-rendering: pixelated;
+            box-shadow: 
+                8px 0 0 0 rgba(255, 255, 255, 0.7),
+                -8px 0 0 0 rgba(255, 255, 255, 0.7),
+                0 8px 0 0 rgba(255, 255, 255, 0.7),
+                16px 8px 0 0 rgba(255, 255, 255, 0.7),
+                -16px 8px 0 0 rgba(255, 255, 255, 0.7);
+        }
+
+        .cloud-1 {
+            width: 32px;
+            height: 16px;
+            top: 10%;
+            left: 10%;
+            animation: float-cloud 60s linear infinite;
+        }
+
+        .cloud-2 {
+            width: 48px;
+            height: 16px;
+            top: 20%;
+            left: 50%;
+            animation: float-cloud 80s linear infinite;
+        }
+
+        .cloud-3 {
+            width: 40px;
+            height: 16px;
+            top: 30%;
+            left: 80%;
+            animation: float-cloud 70s linear infinite;
+        }
+
+        @keyframes float-cloud {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(100vw); }
+        }
+
+        /* Grass Base Strip */
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: var(--grass-green);
+            border-top: var(--pixel-border) solid var(--grass-dark);
+            z-index: 0;
+            box-shadow: inset 0 4px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        /* ==================== PIXEL BLOCK UTILITIES ==================== */
+        .pixel-block {
+            background: var(--wood-brown);
+            border: var(--pixel-border) solid var(--dirt-brown);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.3),
+                inset -4px -4px 0 rgba(0, 0, 0, 0.2),
+                0 6px 12px rgba(0, 0, 0, 0.25);
+            image-rendering: pixelated;
+            position: relative;
+        }
+
+        /* Pixel corners decoration */
+        .pixel-block::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            width: 12px;
+            height: 12px;
+            background: var(--dirt-brown);
+        }
+
+        .pixel-block::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            right: -4px;
+            width: 12px;
+            height: 12px;
+            background: var(--dirt-brown);
+        }
+
+        /* ==================== NAVIGATION ==================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--wood-brown);
+            border-bottom: var(--pixel-border) solid var(--dirt-brown);
+            z-index: 1000;
+            padding: 16px 0;
+            box-shadow: 
+                inset 0 4px 0 rgba(255, 255, 255, 0.3),
+                0 4px 8px var(--shadow);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .navbar-brand {
+            font-size: 16px;
+            color: var(--cream);
+            text-decoration: none;
+            font-weight: 700;
+            text-shadow: 2px 2px 0 var(--dirt-brown);
+            transition: all 0.3s;
+            padding: 8px 12px;
+            background: var(--dirt-brown);
+            border: 2px solid var(--wood-brown);
+            box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .navbar-brand:hover {
+            background: var(--grass-green);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 12px;
+            list-style: none;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .nav-link {
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 12px;
+            transition: all 0.3s;
+            padding: 10px 16px;
+            background: var(--dirt-brown);
+            border: 2px solid var(--wood-brown);
+            box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            background: var(--grass-green);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 
+                inset 2px 2px 0 rgba(255, 255, 255, 0.3),
+                0 4px 0 var(--grass-dark);
+        }
+
+        .nav-link:active {
+            transform: translateY(0);
+            box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 20px 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border: 6px solid var(--wood-brown);
+            box-shadow: 
+                inset 6px 6px 0 rgba(255, 255, 255, 0.5),
+                inset -6px -6px 0 rgba(0, 0, 0, 0.1),
+                0 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        /* Subtle pixel texture overlay */
+        .hero-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(139, 111, 71, 0.02) 2px,
+                    rgba(139, 111, 71, 0.02) 4px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-content > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .subheading {
+            color: var(--grass-green);
+            font-size: 12px;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--sand);
+            border: 2px solid var(--grass-green);
+        }
+
+        .hero h1 {
+            font-size: 32px;
+            color: var(--text-dark);
+            line-height: 1.3;
+            margin-bottom: 24px;
+            text-shadow: 2px 2px 0 var(--sand);
+        }
+
+        .hero h1 span {
+            color: var(--grass-green);
+        }
+
+        #typing-animation {
+            display: block;
+            font-size: 16px;
+            color: var(--dirt-brown);
+            min-height: 50px;
+            margin: 20px 0;
+            padding: 16px;
+            background: var(--sand);
+            border: 4px solid var(--wood-brown);
+            box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        #typing-animation::after {
+            content: '▮';
+            animation: cursor-blink 0.8s infinite;
+            color: var(--grass-green);
+        }
+
+        @keyframes cursor-blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .hero h2 {
+            font-size: 18px;
+            color: var(--text-dark);
+            margin: 24px 0;
+            padding: 16px;
+            background: var(--cream);
+            border-left: 6px solid var(--grass-green);
+        }
+
+        /* Profile Image Section */
+        .profile-image-container {
+            position: absolute;
+            right: 60px;
+            bottom: 0;
+            z-index: 3;
+        }
+
+        .profile-image-wrapper {
+            width: 420px;
+            height: 520px;
+            background: transparent;
+            border: 0;
+            overflow: visible;
+            position: relative;
+        }
+
+        .profile-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+            transition: transform 0.3s ease;
+        }
+
+        .profile-image-wrapper:hover img {
+            transform: translateY(-8px);
+        }
+
+        /* Grass Block Style Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 24px;
+            font-family: 'Silkscreen', monospace;
+            font-size: 12px;
+            text-decoration: none;
+            margin: 8px 8px 8px 0;
+            transition: all 0.2s;
+            position: relative;
+            cursor: pointer;
+            border: 0;
+            image-rendering: pixelated;
+        }
+
+        .btn-primary {
+            background: var(--grass-green);
+            color: var(--white);
+            border: 4px solid var(--grass-dark);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.3),
+                inset -4px -4px 0 rgba(0, 0, 0, 0.2),
+                0 4px 0 var(--grass-dark);
+        }
+
+        .btn-primary:hover {
+            background: var(--grass-dark);
+            transform: translateY(-2px);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.3),
+                inset -4px -4px 0 rgba(0, 0, 0, 0.2),
+                0 6px 0 #4A7C2A;
+        }
+
+        .btn-primary:active {
+            transform: translateY(2px);
+            box-shadow: 
+                inset 4px 4px 0 rgba(0, 0, 0, 0.2),
+                0 2px 0 var(--grass-dark);
+        }
+
+        .btn-outline-white {
+            background: var(--sand);
+            color: var(--text-dark);
+            border: 4px solid var(--wood-brown);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 4px 0 var(--dirt-brown);
+        }
+
+        .btn-outline-white:hover {
+            background: var(--cream);
+            transform: translateY(-2px);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 6px 0 var(--dirt-brown);
+        }
+
+        .btn-outline-white:active {
+            transform: translateY(2px);
+            box-shadow: 
+                inset 4px 4px 0 rgba(0, 0, 0, 0.1),
+                0 2px 0 var(--dirt-brown);
+        }
+
+        /* ==================== SECTIONS ==================== */
+        .ftco-section {
+            padding: 80px 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Section Headers */
+        .heading-section {
+            margin-bottom: 60px;
+            position: relative;
+            text-align: center;
+        }
+
+        .big {
+            font-size: 80px;
+            color: rgba(126, 200, 80, 0.1);
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            font-weight: 700;
+        }
+
+        .heading-section h2 {
+            font-size: 28px;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            padding: 16px 32px;
+            background: var(--cream);
+            border: 4px solid var(--wood-brown);
+            display: inline-block;
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 4px 8px var(--shadow);
+        }
+
+        .heading-section p {
+            font-size: 12px;
+            color: var(--text-dark);
+            line-height: 1.8;
+            margin-top: 16px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ==================== ABOUT SECTION ==================== */
+        .ftco-about {
+            background: transparent;
+        }
+
+        .img-about {
+            background: var(--cream);
+            border: 6px solid var(--wood-brown);
+            padding: 24px;
+            box-shadow: 
+                inset 6px 6px 0 rgba(255, 255, 255, 0.5),
+                0 8px 16px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        /* Wood grain texture */
+        .img-about::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(90deg,
+                    transparent,
+                    transparent 3px,
+                    rgba(139, 111, 71, 0.03) 3px,
+                    rgba(139, 111, 71, 0.03) 6px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .img-about > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .overlay {
+            background: rgba(255, 248, 220, 0.95);
+            padding: 20px;
+            border: 3px solid var(--sand);
+        }
+
+        .about-img img {
+            width: 100%;
+            max-width: 180px;
+            border: 4px solid var(--wood-brown);
+            box-shadow: 
+                inset 2px 2px 0 rgba(255, 255, 255, 0.3),
+                0 4px 8px var(--shadow);
+            image-rendering: pixelated;
+        }
+
+        .about-info p {
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .title-s {
+            color: var(--dirt-brown);
+            display: inline-block;
+            min-width: 100px;
+            font-weight: 700;
+        }
+
+        /* Pixel-style Skill Tiles */
+        .skill-mf {
+            margin-top: 24px;
+        }
+
+        .skill-mf .title-s {
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: block;
+            color: var(--grass-green);
+            font-weight: 700;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .skill-tile {
+            background: var(--cream);
+            border: 4px solid var(--wood-brown);
+            padding: 16px 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            box-shadow: 
+                inset 3px 3px 0 rgba(255, 255, 255, 0.4),
+                inset -3px -3px 0 rgba(0, 0, 0, 0.1),
+                0 4px 0 var(--dirt-brown);
+        }
+
+        .skill-tile:hover {
+            transform: translateY(-4px);
+            background: var(--sand);
+            box-shadow: 
+                inset 3px 3px 0 rgba(255, 255, 255, 0.5),
+                inset -3px -3px 0 rgba(0, 0, 0, 0.1),
+                0 8px 0 var(--dirt-brown),
+                0 8px 12px rgba(126, 200, 80, 0.3);
+        }
+
+        .skill-tile:active {
+            transform: translateY(0);
+            box-shadow: 
+                inset 3px 3px 0 rgba(0, 0, 0, 0.2),
+                0 2px 0 var(--dirt-brown);
+        }
+
+        .skill-icon {
+            font-size: 28px;
+            margin-bottom: 8px;
+            filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.1));
+        }
+
+        .skill-name {
+            font-size: 10px;
+            color: var(--text-dark);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .about-info {
+            list-style: none;
+            margin-top: 24px;
+        }
+
+        .about-info li {
+            padding: 10px 0;
+            border-bottom: 2px solid var(--sand);
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .about-info li:last-child {
+            border-bottom: none;
+        }
+
+        .about-info span:first-child {
+            color: var(--dirt-brown);
+            min-width: 120px;
+            display: inline-block;
+            font-weight: 700;
+        }
+
+        .counter-wrap {
+            margin-top: 24px;
+            padding: 24px;
+            background: var(--grass-green);
+            border: 5px solid var(--grass-dark);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.35),
+                inset -4px -4px 0 rgba(0, 0, 0, 0.15),
+                0 6px 12px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        /* Grass texture */
+        .counter-wrap::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 4px,
+                    rgba(255, 255, 255, 0.05) 4px,
+                    rgba(255, 255, 255, 0.05) 8px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .counter-wrap > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .counter-wrap .text {
+            color: var(--white);
+        }
+
+        .number {
+            font-size: 36px;
+            color: var(--white);
+            text-shadow: 3px 3px 0 var(--grass-dark);
+            font-weight: 700;
+        }
+
+        /* ==================== PROJECTS SECTION ==================== */
+        .blog-entry {
+            background: var(--cream);
+            border: 5px solid var(--wood-brown);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 6px 12px rgba(0, 0, 0, 0.18);
+        }
+
+        .blog-entry:hover {
+            transform: translateY(-6px);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 12px 24px rgba(126, 200, 80, 0.25);
+        }
+
+        .block-20 {
+            display: flex;
+            height: 220px;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            background: var(--sand);
+            border-bottom: 4px solid var(--wood-brown);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Pixel grass texture on project cards */
+        .block-20::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 8px,
+                    rgba(126, 200, 80, 0.1) 8px,
+                    rgba(126, 200, 80, 0.1) 16px);
+            z-index: 0;
+        }
+
+        .block-20 span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .zoom-effect:hover {
+            background: var(--grass-green);
+        }
+
+        .blog-entry .text {
+            padding: 20px;
+            background: var(--cream);
+        }
+
+        .blog-entry h3 {
+            font-size: 13px;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .blog-entry h3 a {
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .blog-entry h3 a:hover {
+            color: var(--grass-green);
+        }
+
+        .blog-entry p {
+            color: var(--text-dark);
+            font-size: 11px;
+            line-height: 1.7;
+            opacity: 0.8;
+        }
+
+        /* ==================== COUNTER SECTION ==================== */
+        .ftco-counter {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 60px 20px;
+            border-top: 6px solid var(--wood-brown);
+            border-bottom: 6px solid var(--wood-brown);
+            box-shadow: 
+                inset 0 6px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -6px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .block-18 {
+            text-align: center;
+            padding: 28px;
+            background: var(--cream);
+            border: 5px solid var(--wood-brown);
+            transition: all 0.3s ease;
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 6px 12px rgba(0, 0, 0, 0.18);
+        }
+
+        .block-18:hover {
+            background: var(--sand);
+            transform: translateY(-6px);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 12px 20px rgba(126, 200, 80, 0.25);
+        }
+
+        .block-18 .number {
+            font-size: 42px;
+            color: var(--grass-green);
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 0 var(--sand);
+        }
+
+        .block-18 span {
+            color: var(--text-dark);
+            font-size: 11px;
+        }
+
+        /* ==================== GITHUB SECTION ==================== */
+        .ftco-hireme {
+            background: var(--grass-green);
+            padding: 60px 20px;
+            text-align: center;
+            border: 6px solid var(--grass-dark);
+            border-left: none;
+            border-right: none;
+            box-shadow: 
+                inset 0 6px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -6px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .ftco-hireme h2 {
+            font-size: 24px;
+            color: var(--white);
+            margin-bottom: 16px;
+            text-shadow: 3px 3px 0 var(--grass-dark);
+        }
+
+        .ftco-hireme h4 {
+            font-size: 14px;
+            color: var(--cream);
+            margin-bottom: 24px;
+            line-height: 1.8;
+        }
+
+        /* ==================== CONTACT SECTION ==================== */
+        .contact-section {
+            background: transparent;
+        }
+
+        .box {
+            background: var(--cream);
+            border: 5px solid var(--wood-brown);
+            padding: 28px;
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 6px 12px rgba(0, 0, 0, 0.18);
+            transition: all 0.3s ease;
+            height: 100%;
+            text-align: center;
+        }
+
+        .box:hover .icon {
+            transform: translateY(-6px);
+            box-shadow: 
+                inset 3px 3px 0 rgba(255, 255, 255, 0.35),
+                0 8px 0 var(--grass-dark),
+                0 8px 16px rgba(126, 200, 80, 0.3);
+        }
+
+        .box h3 {
+            font-size: 13px;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .box p {
+            color: var(--text-dark);
+            font-size: 11px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .box a {
+            color: var(--grass-green);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 700;
+        }
+
+        .box a:hover {
+            color: var(--grass-dark);
+        }
+
+        .ftco-footer-social {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin: 30px 0 0;
+            flex-wrap: wrap;
+        }
+
+        .ftco-footer-social li a {
+            display: block;
+            padding: 12px 20px;
+            background: var(--wood-brown);
+            border: 4px solid var(--dirt-brown);
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 11px;
+            transition: all 0.2s;
+            box-shadow: 
+                inset 3px 3px 0 rgba(255, 255, 255, 0.2),
+                0 3px 0 var(--dirt-brown);
+        }
+
+        .ftco-footer-social li a:hover {
+            background: var(--grass-green);
+            border-color: var(--grass-dark);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 
+                inset 3px 3px 0 rgba(255, 255, 255, 0.3),
+                0 5px 0 var(--grass-dark);
+        }
+
+        .ftco-footer-social li a:active {
+            transform: translateY(1px);
+            box-shadow: 
+                inset 3px 3px 0 rgba(0, 0, 0, 0.2),
+                0 2px 0 var(--dirt-brown);
+        }
+
+        .normal-txt {
+            color: var(--text-dark);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .ftco-footer {
+            background: var(--wood-brown);
+            color: var(--cream);
+            padding: 32px 20px;
+            text-align: center;
+            border-top: 6px solid var(--dirt-brown);
+            font-size: 11px;
+            box-shadow: 
+                inset 0 6px 0 rgba(255, 255, 255, 0.2),
+                0 -4px 8px var(--shadow);
+        }
+
+        .ftco-footer a {
+            color: var(--sand);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* ==================== GRID SYSTEM ==================== */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        [class*="col-"] {
+            padding: 0 10px;
+            margin-bottom: 30px;
+        }
+
+        .col-md-12 { flex: 0 0 100%; max-width: 100%; }
+        .col-md-7 { flex: 0 0 58.333333%; max-width: 58.333333%; }
+        .col-md-6 { flex: 0 0 50%; max-width: 50%; }
+        .col-md-4 { flex: 0 0 33.333333%; max-width: 33.333333%; }
+        .col-md-3 { flex: 0 0 25%; max-width: 25%; }
+        .col-lg-7 { flex: 0 0 58.333333%; max-width: 58.333333%; }
+        .col-lg-5 { flex: 0 0 41.666667%; max-width: 41.666667%; }
+        .col-lg-3 { flex: 0 0 25%; max-width: 25%; }
+
+        .d-flex { display: flex; }
+        .align-items-center { align-items: center; }
+        .align-items-stretch { align-items: stretch; }
+        .justify-content-center { justify-content: center; }
+        .justify-content-end { justify-content: flex-end; }
+        .text-center { text-align: center; }
+
+        .mb-4 { margin-bottom: 30px; }
+        .mb-5 { margin-bottom: 50px; }
+        .mt-3 { margin-top: 20px; }
+        .mt-4 { margin-top: 30px; }
+        .pb-3 { padding-bottom: 20px; }
+        .pb-5 { padding-bottom: 50px; }
+        .py-3 { padding-top: 20px; padding-bottom: 20px; }
+        .px-3 { padding-left: 20px; padding-right: 20px; }
+        .px-4 { padding-left: 30px; padding-right: 30px; }
+        .px-5 { padding-left: 40px; padding-right: 40px; }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 991px) {
+            .col-md-12, .col-md-7, .col-md-6, .col-md-4, .col-md-3,
+            .col-lg-7, .col-lg-5, .col-lg-3 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .hero h1 {
+                font-size: 24px;
+            }
+
+            #typing-animation {
+                font-size: 14px;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            body {
+                font-size: 12px;
+            }
+
+            .number {
+                font-size: 28px;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+                gap: 10px;
+            }
+
+            .skill-tile {
+                padding: 12px 6px;
+            }
+
+            .skill-icon {
+                font-size: 24px;
+            }
+
+            .skill-name {
+                font-size: 9px;
+            }
+
+            .profile-image-container {
+                position: relative;
+                right: auto;
+                bottom: auto;
+                margin: 40px auto 0;
+                text-align: center;
+            }
+
+            .profile-image-wrapper {
+                width: 280px;
+                height: 360px;
+                margin: 0 auto;
+            }
+
+            .hero-content {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .ftco-section {
+                padding: 50px 15px;
+            }
+
+            .heading-section h2 {
+                font-size: 20px;
+                padding: 12px 20px;
+            }
+
+            .block-20 {
+                height: 180px;
+                font-size: 40px;
+            }
+
+            .navbar-brand {
+                font-size: 13px;
+            }
+
+            .nav-link {
+                font-size: 11px;
+                padding: 8px 12px;
+            }
+
+            .btn {
+                padding: 12px 20px;
+                font-size: 11px;
+            }
+
+            .hero-content {
+                padding: 24px;
+            }
+
+            body::after {
+                height: 40px;
+            }
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .ftco-animate {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Gentle hover glow */
+        @keyframes softGlow {
+            0%, 100% { box-shadow: 0 4px 8px var(--shadow); }
+            50% { box-shadow: 0 6px 12px rgba(126, 200, 80, 0.3); }
+        }
+
+        /* ==================== LOADER (Hidden) ==================== */
+        #ftco-loader {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated Clouds -->
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+    <div class="cloud cloud-3"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a class="navbar-brand" href="#home-section">Shivam Singh</a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home-section" class="nav-link">Home</a></li>
+                <li><a href="#about-section" class="nav-link">About</a></li>
+                <li><a href="#project-section" class="nav-link">Projects</a></li>
+                <li><a href="#contact-section" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home-section" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <span class="subheading">Hello!</span>
+                <h1>I'm <span>Shivam Singh</span></h1>
+                <div id="typing-animation"></div>
+                <h2>A Junior Data Analyst</h2>
+                <p>
+                    <a href="https://medium.com/@singhshivam11230" class="btn btn-primary">Medium</a>
+                    <a href="https://github.com/shivamnsingh" class="btn btn-outline-white">My Works</a>
+                </p>
+            </div>
+            
+            <!-- Profile Image -->
+            <div class="profile-image-container">
+                <div class="profile-image-wrapper">
+                    <!-- 🔽 REPLACE THIS URL WITH YOUR FULL PHOTO URL 🔽 -->
+                    <img src="images/image.png" alt="Shivam Singh - Data Analyst">
+                    <!-- 🔼 REPLACE THE URL ABOVE WITH YOUR FULL BODY PHOTO 🔼 -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="ftco-section ftco-about" id="about-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-5">
+                    <div class="img-about">
+                        <div class="overlay">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="about-img">
+                                        <img src="images/image2.jpg" alt="Shivam Singh">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="about-info">
+                                        <p><span class="title-s">Name:</span> <span>Shivam Singh</span></p>
+                                        <p><span class="title-s">Role:</span> <span>Data Analyst</span></p>
+                                        <p><span class="title-s">Experience:</span> <span>6 Months</span></p>
+                                        <p><span class="title-s">Location:</span> <span>Kalyan, MH</span></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="skill-mf">
+                                <p class="title-s">Skills</p>
+                                <div class="skills-grid">
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">🗄️</div>
+                                        <div class="skill-name">SQL</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">🐍</div>
+                                        <div class="skill-name">Python</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">📊</div>
+                                        <div class="skill-name">Power BI</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">📈</div>
+                                        <div class="skill-name">Tableau</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">📉</div>
+                                        <div class="skill-name">Statistics</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">🤖</div>
+                                        <div class="skill-name">ML</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">📑</div>
+                                        <div class="skill-name">Excel</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">🔧</div>
+                                        <div class="skill-name">Git</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">🐼</div>
+                                        <div class="skill-name">Pandas</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">🔢</div>
+                                        <div class="skill-name">NumPy</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">📊</div>
+                                        <div class="skill-name">Matplotlib</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">🌊</div>
+                                        <div class="skill-name">Seaborn</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">🧠</div>
+                                        <div class="skill-name">Scikit-learn</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">📐</div>
+                                        <div class="skill-name">SciPy</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">📊</div>
+                                        <div class="skill-name">Plotly</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">⚡</div>
+                                        <div class="skill-name">Apache Spark</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-7">
+                    <div class="heading-section ftco-animate">
+                        <h1 class="big">About</h1>
+                        <h2 class="mb-4">About Me</h2>
+                        
+                        <p>As a passionate Data Science student pursuing a B.Sc. in Data Science from BK Birla College, I have hands-on experience through multiple academic and real-world projects in data analytics, visualization, and machine learning.</p>
+                        <br>
+                        <p>Proficient in SQL, Python, Power BI, and statistical analysis, I specialize in uncovering insights from data to drive smarter decisions. Driven by curiosity and innovation, I aim to apply analytical thinking and data-driven strategies to solve real-world business problems.</p>
+                        
+                        <ul class="about-info mt-4">
+                            <li><span>Profile:</span> <span>Data Science & Analytics</span></li>
+                            <li><span>Domain:</span> <span>Retail, Entertainment, Healthcare & Education</span></li>
+                            <li><span>Education:</span> <span>B.Sc. Data Science (BK Birla College)</span></li>
+                            <li><span>Language:</span> <span>English, Hindi</span></li>
+                            <li><span>BI Tools:</span> <span>Power BI, Tableau, Google Data Studio</span></li>
+                            <li><span>Other:</span> <span>SQL, Python, R, Excel, GitHub, Stats, ML</span></li>
+                            <li><span>Interest:</span> <span>Tech Blogging, Data Projects, Traveling</span></li>
+                        </ul>
+                    </div>
+
+                    <div class="counter-wrap ftco-animate mt-4">
+                        <div class="text">
+                            <p class="mb-4">
+                                <span class="number" data-number="30">30</span> <span>+</span>
+                                <span>&nbsp; Projects Completed</span>
+                            </p>
+                            <p><a href="https://www.linkedin.com/in/shivamnsingh/" class="btn btn-primary py-3 px-3">LinkedIn</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="ftco-section" id="project-section">
+        <div class="container">
+            <div class="row justify-content-center mb-5 pb-5">
+                <div class="col-md-7 text-center ftco-animate">
+                    <h1 class="big">Projects</h1>
+                    <h2 class="mb-4">Projects</h2>
+                    <p>Sample Data Analytics projects on SQL, Python, Power BI & ML.</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 ftco-animate">
+                    <div class="blog-entry">
+                        <a href="https://github.com/shivamnsingh" class="block-20 zoom-effect">
+                            <span>🎵</span>
+                        </a>
+                        <div class="text mt-3">
+                            <h3 class="heading"><a href="https://github.com/shivamnsingh">Music Store Analysis</a></h3>
+                            <p>Analyzed music store data using advanced SQL queries to identify gaps and increase business growth.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 ftco-animate">
+                    <div class="blog-entry">
+                        <a href="https://github.com/shivamnsingh" class="block-20 zoom-effect">
+                            <span>🪔</span>
+                        </a>
+                        <div class="text mt-3">
+                            <h3 class="heading"><a href="https://github.com/shivamnsingh">Diwali Sales Python</a></h3>
+                            <p>Performed exploratory data analysis on diwali sales data using Python to improve customer experience.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 ftco-animate">
+                    <div class="blog-entry">
+                        <a href="https://github.com/shivamnsingh" class="block-20 zoom-effect">
+                            <span>📊</span>
+                        </a>
+                        <div class="text mt-3">
+                            <h3 class="heading"><a href="https://github.com/shivamnsingh">Power BI Dashboard</a></h3>
+                            <p>Designed a power bi dashboard to track and analyze online sales data across India.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row justify-content-center">
+                <div class="col-md-4 ftco-animate">
+                    <div class="blog-entry">
+                        <a href="https://github.com/shivamnsingh" class="block-20 zoom-effect">
+                            <span>📈</span>
+                        </a>
+                        <div class="text mt-3">
+                            <h3 class="heading"><a href="https://github.com/shivamnsingh">Sales Forecasting</a></h3>
+                            <p>Used multiple machine learning models to forecast sales and performed time series analysis.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 ftco-animate">
+                    <div class="blog-entry">
+                        <a href="https://github.com/shivamnsingh" class="block-20 zoom-effect">
+                            <span>👥</span>
+                        </a>
+                        <div class="text mt-3">
+                            <h3 class="heading"><a href="https://github.com/shivamnsingh">Customer Clustering</a></h3>
+                            <p>Developed ML model to give recommendations of financial products to target customer groups.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Counter Section -->
+    <section class="ftco-section ftco-counter" id="section-counter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 d-flex justify-content-center ftco-animate">
+                    <div class="block-18">
+                        <div class="text">
+                            <strong class="number" data-number="20">20</strong>
+                            <span>Achievements</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex justify-content-center ftco-animate">
+                    <div class="block-18">
+                        <div class="text">
+                            <strong class="number" data-number="30">30</strong>
+                            <span>Projects</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex justify-content-center ftco-animate">
+                    <div class="block-18">
+                        <div class="text">
+                            <strong class="number" data-number="50">50</strong>
+                            <span>+ Datasets Analyzed</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 d-flex justify-content-center ftco-animate">
+                    <div class="block-18">
+                        <div class="text">
+                            <strong class="number" data-number="15">15</strong>
+                            <span>+ Dashboards Created</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GitHub Section -->
+    <div class="ftco-section ftco-hireme">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-7 text-center ftco-animate">
+                    <h2>More Projects on Github</h2>
+                    <div class="heading">
+                        <h4>I love to solve business problems & uncover hidden data stories</h4>
+                        <br>
+                        <p><a href="https://github.com/shivamnsingh" class="btn btn-primary py-3 px-5">GitHub</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <section class="ftco-section contact-section" id="contact-section">
+        <div class="container">
+            <div class="row justify-content-center mb-5 pb-3">
+                <div class="col-md-7 text-center ftco-animate">
+                    <h1 class="big">Contact</h1>
+                    <h2 class="mb-4">Contact Me</h2>
+                    <p>Details to reach out to me!</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-lg-3 ftco-animate">
+                    <div class="box text-center">
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <span>📍</span>
+                        </div>
+                        <h3 class="mb-4">Address</h3>
+                        <p>Kalyan, Maharashtra, India</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 ftco-animate">
+                    <div class="box text-center">
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <span>📧</span>
+                        </div>
+                        <h3 class="mb-4">Email</h3>
+                        <p><a href="mailto:singhshivam11230@gmail.com">singhshivam11230@gmail.com</a></p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 ftco-animate">
+                    <div class="box text-center">
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <span>💼</span>
+                        </div>
+                        <h3 class="mb-4">LinkedIn</h3>
+                        <p><a href="https://www.linkedin.com/in/shivamnsingh/">Connect with me</a></p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 ftco-animate">
+                    <div class="box text-center">
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <span>📄</span>
+                        </div>
+                        <h3 class="mb-4">Resume</h3>
+                        <p><a href="#">Download CV</a></p>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <br><br>
+                    <div class="row justify-content-center">
+                        <div class="col-md-7 text-center ftco-animate">
+                            <h2>Have a Question? <a href="https://forms.gle/uLaTShUKXraAvHJ77" class="btn btn-primary py-3 px-5">Click Here</a></h2>
+                        </div>
+                    </div>
+                    <br>
+                    <ul class="ftco-footer-social list-unstyled">
+                        <li class="normal-txt">Find me on</li>
+                        <li><a href="https://github.com/shivamnsingh">GitHub</a></li>
+                        <li><a href="https://www.linkedin.com/in/shivamnsingh/">LinkedIn</a></li>
+                        <li><a href="https://medium.com/@singhshivam11230">Medium</a></li>
+                    </ul>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="ftco-footer ftco-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p>Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Built with ♥ for data by Shivam Singh</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Typing Animation
+        const typingAnimationElement = document.getElementById('typing-animation');
+        const typingTexts = ['Student', 'YouTuber', 'Teacher', 'Data Analyst'];
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function typeText() {
+            const currentText = typingTexts[textIndex];
+            
+            if (isDeleting) {
+                typingAnimationElement.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingAnimationElement.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 50 : 150;
+
+            if (!isDeleting && charIndex === currentText.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % typingTexts.length;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeText, typeSpeed);
+        }
+
+        typeText();
+
+        // Counter Animation
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-number'));
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 30);
+        }
+
+        // Intersection Observer for counters
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counters = entry.target.querySelectorAll('.number');
+                    counters.forEach(counter => {
+                        if (counter.textContent === '0') {
+                            animateCounter(counter);
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        const counterSection = document.getElementById('section-counter');
+        if (counterSection) {
+            observer.observe(counterSection);
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>hover {
+            background: var(--sand);
+            transform: translateY(-6px);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 12px 20px rgba(126, 200, 80, 0.25);
+        }
+
+        .icon {
+            width: 60px;
+            height: 60px;
+            background: var(--grass-green);
+            border: 5px solid var(--grass-dark);
+            margin: 0 auto 18px;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 
+                inset 3px 3px 0 rgba(255, 255, 255, 0.35),
+                0 4px 0 var(--grass-dark);
+            color: var(--white);
+        }
+
+        .box:
