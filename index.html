@@ -6,6 +6,7 @@
     <title>Shivam Singh - Data Analyst Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* ==================== CSS VARIABLES - SOFT PIXEL PALETTE ==================== */
         :root {
             --sky-blue: #87CEEB;
             --sky-light: #B0E0F6;
@@ -13,14 +14,17 @@
             --grass-green: #7EC850;
             --grass-dark: #5E9C3A;
             --dirt-brown: #8B6F47;
+            --stone-gray: #808080;
             --cream: #FFF8DC;
             --wood-brown: #A0826D;
             --sand: #F4E4C1;
             --white: #FFFFFF;
             --text-dark: #3E2723;
             --shadow: rgba(0, 0, 0, 0.2);
+            --pixel-border: 4px;
         }
 
+        /* Dark Mode Variables */
         [data-theme="dark"] {
             --sky-blue: #1a1a2e;
             --sky-light: #16213e;
@@ -32,45 +36,33 @@
             --wood-brown: #4a5568;
             --dirt-brown: #2d3748;
             --shadow: rgba(0, 0, 0, 0.4);
-            --grass-green: #5a9c44;
-            --grass-dark: #4a7c34;
         }
 
-        [data-theme="dark"] .hero-content {
-            background: rgba(45, 55, 72, 0.95);
+        /* ==================== RESET & BASE ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        [data-theme="dark"] .navbar {
-            background: var(--wood-brown);
-            border-bottom: 4px solid var(--dirt-brown);
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
         }
-
-        [data-theme="dark"] .navbar-brand,
-        [data-theme="dark"] .nav-link,
-        [data-theme="dark"] .theme-toggle {
-            background: var(--dirt-brown);
-            color: var(--cream);
-            border-color: var(--wood-brown);
-        }
-
-        [data-theme="dark"] .cloud {
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 8px 0 0 0 rgba(255, 255, 255, 0.1), -8px 0 0 0 rgba(255, 255, 255, 0.1), 0 8px 0 0 rgba(255, 255, 255, 0.1), 16px 8px 0 0 rgba(255, 255, 255, 0.1), -16px 8px 0 0 rgba(255, 255, 255, 0.1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; scroll-padding-top: 100px; }
 
         body {
             font-family: 'Silkscreen', monospace;
             line-height: 1.7;
             color: var(--text-dark);
             background: var(--sky-blue);
-            font-size: 13px;
+            font-size: 14px;
             overflow-x: hidden;
-            transition: background 0.3s, color 0.3s;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
+        /* Pixelated Sky Background with Clouds */
         body::before {
             content: '';
             position: fixed;
@@ -78,48 +70,59 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, var(--sky-light) 0%, var(--sky-blue) 50%, var(--sky-dark) 100%);
+            background: 
+                linear-gradient(to bottom, 
+                    var(--sky-light) 0%, 
+                    var(--sky-blue) 50%, 
+                    var(--sky-dark) 100%);
             z-index: -2;
-            transition: background 0.3s;
         }
 
+        /* Animated Clouds */
         .cloud {
             position: fixed;
             background: rgba(255, 255, 255, 0.7);
+            border-radius: 0;
             z-index: 0;
-            box-shadow: 8px 0 0 0 rgba(255, 255, 255, 0.7), -8px 0 0 0 rgba(255, 255, 255, 0.7), 0 8px 0 0 rgba(255, 255, 255, 0.7), 16px 8px 0 0 rgba(255, 255, 255, 0.7), -16px 8px 0 0 rgba(255, 255, 255, 0.7);
+            image-rendering: pixelated;
+            box-shadow: 
+                8px 0 0 0 rgba(255, 255, 255, 0.7),
+                -8px 0 0 0 rgba(255, 255, 255, 0.7),
+                0 8px 0 0 rgba(255, 255, 255, 0.7),
+                16px 8px 0 0 rgba(255, 255, 255, 0.7),
+                -16px 8px 0 0 rgba(255, 255, 255, 0.7);
         }
 
-        .cloud-1 { width: 32px; height: 16px; top: 10%; left: 10%; animation: float-cloud 60s linear infinite; }
-        .cloud-2 { width: 48px; height: 16px; top: 20%; left: 50%; animation: float-cloud 80s linear infinite; }
-        .cloud-3 { width: 40px; height: 16px; top: 30%; left: 80%; animation: float-cloud 70s linear infinite; }
+        .cloud-1 {
+            width: 32px;
+            height: 16px;
+            top: 10%;
+            left: 10%;
+            animation: float-cloud 60s linear infinite;
+        }
+
+        .cloud-2 {
+            width: 48px;
+            height: 16px;
+            top: 20%;
+            left: 50%;
+            animation: float-cloud 80s linear infinite;
+        }
+
+        .cloud-3 {
+            width: 40px;
+            height: 16px;
+            top: 30%;
+            left: 80%;
+            animation: float-cloud 70s linear infinite;
+        }
 
         @keyframes float-cloud {
             0% { transform: translateX(0); }
             100% { transform: translateX(100vw); }
         }
 
-        .bird { position: fixed; width: 24px; height: 16px; z-index: 0; opacity: 0.8; }
-        .bird-body {
-            position: absolute;
-            width: 16px;
-            height: 8px;
-            background: var(--text-dark);
-            box-shadow: -8px 0 0 0 var(--text-dark), 8px 0 0 0 var(--text-dark), -4px 4px 0 0 var(--text-dark), 4px 4px 0 0 var(--text-dark);
-        }
-
-        .bird-1 { top: 15%; left: 20%; animation: fly-bird 25s linear infinite; }
-        .bird-2 { top: 25%; left: 60%; animation: fly-bird 30s linear infinite 5s; }
-        .bird-3 { top: 35%; left: 80%; animation: fly-bird 28s linear infinite 10s; }
-
-        @keyframes fly-bird {
-            0% { transform: translateX(0) translateY(0); }
-            25% { transform: translateX(20vw) translateY(-10px); }
-            50% { transform: translateX(40vw) translateY(0); }
-            75% { transform: translateX(60vw) translateY(10px); }
-            100% { transform: translateX(100vw) translateY(0); }
-        }
-
+        /* Grass Base Strip */
         body::after {
             content: '';
             position: fixed;
@@ -128,20 +131,56 @@
             width: 100%;
             height: 60px;
             background: var(--grass-green);
-            border-top: 4px solid var(--grass-dark);
+            border-top: var(--pixel-border) solid var(--grass-dark);
             z-index: 0;
             box-shadow: inset 0 4px 0 rgba(255, 255, 255, 0.2);
         }
 
+        /* ==================== PIXEL BLOCK UTILITIES ==================== */
+        .pixel-block {
+            background: var(--wood-brown);
+            border: var(--pixel-border) solid var(--dirt-brown);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.3),
+                inset -4px -4px 0 rgba(0, 0, 0, 0.2),
+                0 6px 12px rgba(0, 0, 0, 0.25);
+            image-rendering: pixelated;
+            position: relative;
+        }
+
+        /* Pixel corners decoration */
+        .pixel-block::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            width: 12px;
+            height: 12px;
+            background: var(--dirt-brown);
+        }
+
+        .pixel-block::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            right: -4px;
+            width: 12px;
+            height: 12px;
+            background: var(--dirt-brown);
+        }
+
+        /* ==================== NAVIGATION ==================== */
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
             background: var(--wood-brown);
-            border-bottom: 4px solid var(--dirt-brown);
+            border-bottom: var(--pixel-border) solid var(--dirt-brown);
             z-index: 1000;
             padding: 16px 0;
-            box-shadow: inset 0 4px 0 rgba(255, 255, 255, 0.3), 0 4px 8px var(--shadow);
+            box-shadow: 
+                inset 0 4px 0 rgba(255, 255, 255, 0.3),
+                0 4px 8px var(--shadow);
         }
 
         .nav-container {
@@ -151,11 +190,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 20px;
+            position: relative;
+            z-index: 1001;
         }
 
         .navbar-brand {
-            font-size: 16px;
+            font-size: 18px;
             color: var(--cream);
             text-decoration: none;
             font-weight: 700;
@@ -177,151 +217,72 @@
             display: flex;
             gap: 12px;
             list-style: none;
-            flex-wrap: wrap;
+            position: relative;
+            z-index: 1001;
         }
 
         .nav-link {
             color: var(--cream);
             text-decoration: none;
-            font-size: 12px;
+            font-size: 13px;
             transition: all 0.3s;
             padding: 10px 16px;
             background: var(--dirt-brown);
             border: 2px solid var(--wood-brown);
             box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.2);
-            display: block;
+            position: relative;
         }
 
         .nav-link:hover {
             background: var(--grass-green);
             color: var(--white);
             transform: translateY(-2px);
-            box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.3), 0 4px 0 var(--grass-dark);
+            box-shadow: 
+                inset 2px 2px 0 rgba(255, 255, 255, 0.3),
+                0 4px 0 var(--grass-dark);
         }
 
-        .theme-toggle {
-            width: 48px;
-            height: 48px;
-            background: var(--dirt-brown);
-            border: 3px solid var(--wood-brown);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            transition: all 0.3s;
-            box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.2);
+        .nav-link:active {
+            transform: translateY(0);
+            box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.2);
         }
 
-        .theme-toggle:hover {
-            background: var(--grass-green);
-            transform: translateY(-2px);
-            box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.3), 0 4px 0 var(--grass-dark);
-        }
-
-        .social-sidebar {
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
             position: fixed;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .social-tile {
+            bottom: 30px;
+            right: 30px;
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, var(--sky-light) 0%, var(--sky-blue) 100%);
-            border: 4px solid rgba(255, 255, 255, 0.3);
+            background: var(--grass-green);
+            border: 4px solid var(--grass-dark);
+            cursor: pointer;
+            z-index: 1000;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-            box-shadow: inset 3px 3px 0 rgba(255, 255, 255, 0.4), inset -3px -3px 0 rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.3);
-            text-decoration: none;
+            font-size: 28px;
+            transition: all 0.3s ease;
+            box-shadow: 
+                inset 3px 3px 0 rgba(255, 255, 255, 0.3),
+                0 4px 0 var(--grass-dark);
         }
 
-        .social-tile::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: repeating-linear-gradient(0deg, transparent, transparent 4px, rgba(255, 255, 255, 0.05) 4px, rgba(255, 255, 255, 0.05) 8px);
-            pointer-events: none;
+        .dark-mode-toggle:hover {
+            transform: translateY(-4px);
+            box-shadow: 
+                inset 3px 3px 0 rgba(255, 255, 255, 0.3),
+                0 8px 0 var(--grass-dark);
         }
 
-        .social-tile:hover {
-            transform: translateY(-6px);
-            background: linear-gradient(135deg, var(--grass-green) 0%, var(--grass-dark) 100%);
-            border-color: rgba(255, 255, 255, 0.6);
-            box-shadow: inset 3px 3px 0 rgba(255, 255, 255, 0.5), inset -3px -3px 0 rgba(0, 0, 0, 0.2), 0 8px 16px rgba(126, 200, 80, 0.5), 0 0 20px rgba(126, 200, 80, 0.3);
+        .dark-mode-toggle:active {
+            transform: translateY(0);
+            box-shadow: 
+                inset 3px 3px 0 rgba(0, 0, 0, 0.2),
+                0 2px 0 var(--grass-dark);
         }
 
-        .social-tile svg {
-            width: 28px;
-            height: 28px;
-            fill: var(--white);
-            filter: drop-shadow(2px 2px 0 rgba(0, 0, 0, 0.3));
-            position: relative;
-            z-index: 1;
-        }
-
-        .particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .social-tile:hover .particles { opacity: 1; }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--white);
-            box-shadow: 0 0 4px var(--white);
-        }
-
-        .particle-1 { top: 10%; left: 10%; animation: sparkle 0.6s ease-out infinite; }
-        .particle-2 { top: 10%; right: 10%; animation: sparkle 0.6s ease-out 0.1s infinite; }
-        .particle-3 { bottom: 10%; left: 10%; animation: sparkle 0.6s ease-out 0.2s infinite; }
-        .particle-4 { bottom: 10%; right: 10%; animation: sparkle 0.6s ease-out 0.3s infinite; }
-
-        @keyframes sparkle {
-            0% { transform: scale(0) translateY(0); opacity: 1; }
-            100% { transform: scale(1.5) translateY(-10px); opacity: 0; }
-        }
-
-        .social-tooltip {
-            position: absolute;
-            left: 75px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--wood-brown);
-            color: var(--cream);
-            padding: 8px 12px;
-            border: 3px solid var(--dirt-brown);
-            font-size: 11px;
-            white-space: nowrap;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-            box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.2), 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .social-tile:hover .social-tooltip { opacity: 1; }
-
+        /* ==================== HERO SECTION ==================== */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -335,6 +296,7 @@
             max-width: 1200px;
             margin: 0 auto;
             position: relative;
+            z-index: 2;
             width: 100%;
         }
 
@@ -343,15 +305,39 @@
             background: rgba(255, 255, 255, 0.95);
             padding: 40px;
             border: 6px solid var(--wood-brown);
-            box-shadow: inset 6px 6px 0 rgba(255, 255, 255, 0.5), inset -6px -6px 0 rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 
+                inset 6px 6px 0 rgba(255, 255, 255, 0.5),
+                inset -6px -6px 0 rgba(0, 0, 0, 0.1),
+                0 10px 20px rgba(0, 0, 0, 0.2);
             position: relative;
         }
 
-        .hero-content > * { position: relative; z-index: 1; }
+        /* Subtle pixel texture overlay */
+        .hero-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(139, 111, 71, 0.02) 2px,
+                    rgba(139, 111, 71, 0.02) 4px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero-content > * {
+            position: relative;
+            z-index: 1;
+        }
 
         .subheading {
             color: var(--grass-green);
-            font-size: 12px;
+            font-size: 14px;
             letter-spacing: 2px;
             margin-bottom: 16px;
             display: inline-block;
@@ -361,18 +347,20 @@
         }
 
         .hero h1 {
-            font-size: 32px;
+            font-size: 36px;
             color: var(--text-dark);
             line-height: 1.3;
             margin-bottom: 24px;
             text-shadow: 2px 2px 0 var(--sand);
         }
 
-        .hero h1 span { color: var(--grass-green); }
+        .hero h1 span {
+            color: var(--grass-green);
+        }
 
         #typing-animation {
             display: block;
-            font-size: 16px;
+            font-size: 18px;
             color: var(--dirt-brown);
             min-height: 50px;
             margin: 20px 0;
@@ -394,7 +382,7 @@
         }
 
         .hero h2 {
-            font-size: 18px;
+            font-size: 20px;
             color: var(--text-dark);
             margin: 24px 0;
             padding: 16px;
@@ -402,6 +390,7 @@
             border-left: 6px solid var(--grass-green);
         }
 
+        /* Profile Image Section */
         .profile-image-container {
             position: absolute;
             right: 60px;
@@ -412,6 +401,10 @@
         .profile-image-wrapper {
             width: 420px;
             height: 520px;
+            background: transparent;
+            border: 0;
+            overflow: visible;
+            position: relative;
         }
 
         .profile-image-wrapper img {
@@ -421,52 +414,95 @@
             object-position: center top;
             filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
             transition: transform 0.3s ease;
-            display: block;
         }
 
-        .profile-image-wrapper:hover img { transform: translateY(-8px); }
+        .profile-image-wrapper:hover img {
+            transform: translateY(-8px);
+        }
 
+        /* Grass Block Style Buttons */
         .btn {
             display: inline-block;
             padding: 14px 24px;
             font-family: 'Silkscreen', monospace;
-            font-size: 12px;
+            font-size: 13px;
             text-decoration: none;
             margin: 8px 8px 8px 0;
             transition: all 0.2s;
+            position: relative;
             cursor: pointer;
             border: 0;
+            image-rendering: pixelated;
         }
 
         .btn-primary {
             background: var(--grass-green);
             color: var(--white);
             border: 4px solid var(--grass-dark);
-            box-shadow: inset 4px 4px 0 rgba(255, 255, 255, 0.3), inset -4px -4px 0 rgba(0, 0, 0, 0.2), 0 4px 0 var(--grass-dark);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.3),
+                inset -4px -4px 0 rgba(0, 0, 0, 0.2),
+                0 4px 0 var(--grass-dark);
         }
 
         .btn-primary:hover {
             background: var(--grass-dark);
             transform: translateY(-2px);
-            box-shadow: inset 4px 4px 0 rgba(255, 255, 255, 0.3), inset -4px -4px 0 rgba(0, 0, 0, 0.2), 0 6px 0 #4A7C2A;
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.3),
+                inset -4px -4px 0 rgba(0, 0, 0, 0.2),
+                0 6px 0 #4A7C2A;
+        }
+
+        .btn-primary:active {
+            transform: translateY(2px);
+            box-shadow: 
+                inset 4px 4px 0 rgba(0, 0, 0, 0.2),
+                0 2px 0 var(--grass-dark);
         }
 
         .btn-outline-white {
             background: var(--sand);
             color: var(--text-dark);
             border: 4px solid var(--wood-brown);
-            box-shadow: inset 4px 4px 0 rgba(255, 255, 255, 0.5), 0 4px 0 var(--dirt-brown);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 4px 0 var(--dirt-brown);
         }
 
         .btn-outline-white:hover {
             background: var(--cream);
             transform: translateY(-2px);
-            box-shadow: inset 4px 4px 0 rgba(255, 255, 255, 0.5), 0 6px 0 var(--dirt-brown);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 6px 0 var(--dirt-brown);
         }
 
-        .ftco-section { padding: 80px 20px; position: relative; z-index: 2; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .heading-section { margin-bottom: 60px; position: relative; text-align: center; }
+        .btn-outline-white:active {
+            transform: translateY(2px);
+            box-shadow: 
+                inset 4px 4px 0 rgba(0, 0, 0, 0.1),
+                0 2px 0 var(--dirt-brown);
+        }
+
+        /* ==================== SECTIONS ==================== */
+        .ftco-section {
+            padding: 80px 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Section Headers */
+        .heading-section {
+            margin-bottom: 60px;
+            position: relative;
+            text-align: center;
+        }
 
         .big {
             font-size: 80px;
@@ -480,18 +516,20 @@
         }
 
         .heading-section h2 {
-            font-size: 28px;
+            font-size: 32px;
             color: var(--text-dark);
             margin-bottom: 16px;
             padding: 16px 32px;
             background: var(--cream);
             border: 4px solid var(--wood-brown);
             display: inline-block;
-            box-shadow: inset 4px 4px 0 rgba(255, 255, 255, 0.5), 0 4px 8px var(--shadow);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 4px 8px var(--shadow);
         }
 
         .heading-section p {
-            font-size: 12px;
+            font-size: 14px;
             color: var(--text-dark);
             line-height: 1.8;
             margin-top: 16px;
@@ -500,11 +538,42 @@
             margin-right: auto;
         }
 
+        /* ==================== ABOUT SECTION ==================== */
+        .ftco-about {
+            background: transparent;
+        }
+
         .img-about {
             background: var(--cream);
             border: 6px solid var(--wood-brown);
             padding: 24px;
-            box-shadow: inset 6px 6px 0 rgba(255, 255, 255, 0.5), 0 8px 16px rgba(0, 0, 0, 0.2);
+            box-shadow: 
+                inset 6px 6px 0 rgba(255, 255, 255, 0.5),
+                0 8px 16px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        /* Wood grain texture */
+        .img-about::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(90deg,
+                    transparent,
+                    transparent 3px,
+                    rgba(139, 111, 71, 0.03) 3px,
+                    rgba(139, 111, 71, 0.03) 6px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .img-about > * {
+            position: relative;
+            z-index: 1;
         }
 
         .overlay {
@@ -517,17 +586,42 @@
             width: 100%;
             max-width: 180px;
             border: 4px solid var(--wood-brown);
-            box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.3), 0 4px 8px var(--shadow);
+            box-shadow: 
+                inset 2px 2px 0 rgba(255, 255, 255, 0.3),
+                0 4px 8px var(--shadow);
+            image-rendering: pixelated;
         }
 
-        .about-info p { color: var(--text-dark); margin-bottom: 12px; font-size: 11px; line-height: 1.6; }
-        .title-s { color: var(--dirt-brown); display: inline-block; min-width: 100px; font-weight: 700; }
-        .skill-mf { margin-top: 24px; }
-        .skill-mf .title-s { font-size: 14px; margin-bottom: 20px; display: block; color: var(--grass-green); }
+        .about-info p {
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .title-s {
+            color: var(--dirt-brown);
+            display: inline-block;
+            min-width: 100px;
+            font-weight: 700;
+        }
+
+        /* Pixel-style Skill Tiles */
+        .skill-mf {
+            margin-top: 24px;
+        }
+
+        .skill-mf .title-s {
+            font-size: 16px;
+            margin-bottom: 20px;
+            display: block;
+            color: var(--grass-green);
+            font-weight: 700;
+        }
 
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(95px, 1fr));
             gap: 12px;
             margin-top: 16px;
         }
@@ -539,45 +633,142 @@
             text-align: center;
             transition: all 0.3s ease;
             cursor: pointer;
-            box-shadow: inset 3px 3px 0 rgba(255, 255, 255, 0.4), inset -3px -3px 0 rgba(0, 0, 0, 0.1), 0 4px 0 var(--dirt-brown);
+            position: relative;
+            box-shadow: 
+                inset 3px 3px 0 rgba(255, 255, 255, 0.4),
+                inset -3px -3px 0 rgba(0, 0, 0, 0.1),
+                0 4px 0 var(--dirt-brown);
         }
 
         .skill-tile:hover {
             transform: translateY(-4px);
             background: var(--sand);
-            box-shadow: inset 3px 3px 0 rgba(255, 255, 255, 0.5), inset -3px -3px 0 rgba(0, 0, 0, 0.1), 0 8px 0 var(--dirt-brown), 0 8px 12px rgba(126, 200, 80, 0.3);
+            box-shadow: 
+                inset 3px 3px 0 rgba(255, 255, 255, 0.5),
+                inset -3px -3px 0 rgba(0, 0, 0, 0.1),
+                0 8px 0 var(--dirt-brown),
+                0 8px 12px rgba(126, 200, 80, 0.3);
         }
 
-        .skill-icon { font-size: 28px; margin-bottom: 8px; }
-        .skill-name { font-size: 10px; color: var(--text-dark); font-weight: 700; }
+        .skill-tile:active {
+            transform: translateY(0);
+            box-shadow: 
+                inset 3px 3px 0 rgba(0, 0, 0, 0.2),
+                0 2px 0 var(--dirt-brown);
+        }
 
-        .about-info { list-style: none; margin-top: 24px; }
-        .about-info li { padding: 10px 0; border-bottom: 2px solid var(--sand); font-size: 11px; }
-        .about-info span:first-child { color: var(--dirt-brown); min-width: 120px; display: inline-block; font-weight: 700; }
+        .skill-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 8px;
+            background: var(--sand);
+            border: 2px solid var(--wood-brown);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .skill-icon img {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+        }
+
+        .skill-name {
+            font-size: 11px;
+            color: var(--text-dark);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .about-info {
+            list-style: none;
+            margin-top: 24px;
+        }
+
+        .about-info li {
+            padding: 10px 0;
+            border-bottom: 2px solid var(--sand);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .about-info li:last-child {
+            border-bottom: none;
+        }
+
+        .about-info span:first-child {
+            color: var(--dirt-brown);
+            min-width: 120px;
+            display: inline-block;
+            font-weight: 700;
+        }
 
         .counter-wrap {
             margin-top: 24px;
             padding: 24px;
             background: var(--grass-green);
             border: 5px solid var(--grass-dark);
-            box-shadow: inset 4px 4px 0 rgba(255, 255, 255, 0.35), inset -4px -4px 0 rgba(0, 0, 0, 0.15), 0 6px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.35),
+                inset -4px -4px 0 rgba(0, 0, 0, 0.15),
+                0 6px 12px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
 
-        .counter-wrap .text { color: var(--white); }
-        .number { font-size: 36px; color: var(--white); text-shadow: 3px 3px 0 var(--grass-dark); font-weight: 700; }
+        /* Grass texture */
+        .counter-wrap::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 4px,
+                    rgba(255, 255, 255, 0.05) 4px,
+                    rgba(255, 255, 255, 0.05) 8px);
+            pointer-events: none;
+            z-index: 0;
+        }
 
+        .counter-wrap > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .counter-wrap .text {
+            color: var(--white);
+        }
+
+        .number {
+            font-size: 36px;
+            color: var(--white);
+            text-shadow: 3px 3px 0 var(--grass-dark);
+            font-weight: 700;
+        }
+
+        /* ==================== PROJECTS SECTION ==================== */
         .blog-entry {
             background: var(--cream);
             border: 5px solid var(--wood-brown);
             overflow: hidden;
             transition: all 0.3s ease;
             height: 100%;
-            box-shadow: inset 4px 4px 0 rgba(255, 255, 255, 0.5), 0 6px 12px rgba(0, 0, 0, 0.18);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 6px 12px rgba(0, 0, 0, 0.18);
         }
 
         .blog-entry:hover {
             transform: translateY(-6px);
-            box-shadow: inset 4px 4px 0 rgba(255, 255, 255, 0.5), 0 12px 24px rgba(126, 200, 80, 0.25);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 12px 24px rgba(126, 200, 80, 0.25);
         }
 
         .block-20 {
@@ -588,21 +779,74 @@
             font-size: 60px;
             background: var(--sand);
             border-bottom: 4px solid var(--wood-brown);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .zoom-effect:hover { background: var(--grass-green); }
-        .blog-entry .text { padding: 20px; background: var(--cream); }
-        .blog-entry h3 { font-size: 13px; margin-bottom: 12px; line-height: 1.5; }
-        .blog-entry h3 a { color: var(--text-dark); text-decoration: none; transition: all 0.3s; }
-        .blog-entry h3 a:hover { color: var(--grass-green); }
-        .blog-entry p { color: var(--text-dark); font-size: 11px; line-height: 1.7; opacity: 0.8; }
+        /* Pixel grass texture on project cards */
+        .block-20::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 8px,
+                    rgba(126, 200, 80, 0.1) 8px,
+                    rgba(126, 200, 80, 0.1) 16px);
+            z-index: 0;
+        }
 
+        .block-20 span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .zoom-effect:hover {
+            background: var(--grass-green);
+        }
+
+        .blog-entry .text {
+            padding: 20px;
+            background: var(--cream);
+        }
+
+        .blog-entry h3 {
+            font-size: 15px;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        .blog-entry h3 a {
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .blog-entry h3 a:hover {
+            color: var(--grass-green);
+        }
+
+        .blog-entry p {
+            color: var(--text-dark);
+            font-size: 13px;
+            line-height: 1.7;
+            opacity: 0.8;
+        }
+
+        /* ==================== COUNTER SECTION ==================== */
         .ftco-counter {
             background: rgba(255, 255, 255, 0.7);
             padding: 60px 20px;
             border-top: 6px solid var(--wood-brown);
             border-bottom: 6px solid var(--wood-brown);
-            box-shadow: inset 0 6px 0 rgba(255, 255, 255, 0.5), inset 0 -6px 0 rgba(0, 0, 0, 0.1);
+            box-shadow: 
+                inset 0 6px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -6px 0 rgba(0, 0, 0, 0.1);
         }
 
         .block-18 {
@@ -611,18 +855,32 @@
             background: var(--cream);
             border: 5px solid var(--wood-brown);
             transition: all 0.3s ease;
-            box-shadow: inset 4px 4px 0 rgba(255, 255, 255, 0.5), 0 6px 12px rgba(0, 0, 0, 0.18);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 6px 12px rgba(0, 0, 0, 0.18);
         }
 
         .block-18:hover {
             background: var(--sand);
             transform: translateY(-6px);
-            box-shadow: inset 4px 4px 0 rgba(255, 255, 255, 0.5), 0 12px 20px rgba(126, 200, 80, 0.25);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 12px 20px rgba(126, 200, 80, 0.25);
         }
 
-        .block-18 .number { font-size: 42px; color: var(--grass-green); margin-bottom: 8px; text-shadow: 2px 2px 0 var(--sand); }
-        .block-18 span { color: var(--text-dark); font-size: 11px; }
+        .block-18 .number {
+            font-size: 42px;
+            color: var(--grass-green);
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 0 var(--sand);
+        }
 
+        .block-18 span {
+            color: var(--text-dark);
+            font-size: 13px;
+        }
+
+        /* ==================== GITHUB SECTION ==================== */
         .ftco-hireme {
             background: var(--grass-green);
             padding: 60px 20px;
@@ -630,26 +888,74 @@
             border: 6px solid var(--grass-dark);
             border-left: none;
             border-right: none;
-            box-shadow: inset 0 6px 0 rgba(255, 255, 255, 0.3), inset 0 -6px 0 rgba(0, 0, 0, 0.2);
+            box-shadow: 
+                inset 0 6px 0 rgba(255, 255, 255, 0.3),
+                inset 0 -6px 0 rgba(0, 0, 0, 0.2);
         }
 
-        .ftco-hireme h2 { font-size: 24px; color: var(--white); margin-bottom: 16px; text-shadow: 3px 3px 0 var(--grass-dark); }
-        .ftco-hireme h4 { font-size: 14px; color: var(--cream); margin-bottom: 24px; line-height: 1.8; }
+        .ftco-hireme h2 {
+            font-size: 26px;
+            color: var(--white);
+            margin-bottom: 16px;
+            text-shadow: 3px 3px 0 var(--grass-dark);
+        }
+
+        .ftco-hireme h4 {
+            font-size: 16px;
+            color: var(--cream);
+            margin-bottom: 24px;
+            line-height: 1.8;
+        }
+
+        /* ==================== CONTACT SECTION ==================== */
+        .contact-section {
+            background: transparent;
+        }
 
         .box {
             background: var(--cream);
             border: 5px solid var(--wood-brown);
             padding: 28px;
-            box-shadow: inset 4px 4px 0 rgba(255, 255, 255, 0.5), 0 6px 12px rgba(0, 0, 0, 0.18);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 6px 12px rgba(0, 0, 0, 0.18);
             transition: all 0.3s ease;
             height: 100%;
             text-align: center;
         }
 
-        .box h3 { font-size: 13px; color: var(--text-dark); margin-bottom: 12px; font-weight: 700; }
-        .box p { color: var(--text-dark); font-size: 11px; line-height: 1.6; opacity: 0.9; }
-        .box a { color: var(--grass-green); text-decoration: none; transition: all 0.3s; font-weight: 700; }
-        .box a:hover { color: var(--grass-dark); }
+        .box:hover .icon {
+            transform: translateY(-6px);
+            box-shadow: 
+                inset 3px 3px 0 rgba(255, 255, 255, 0.35),
+                0 8px 0 var(--grass-dark),
+                0 8px 16px rgba(126, 200, 80, 0.3);
+        }
+
+        .box h3 {
+            font-size: 15px;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .box p {
+            color: var(--text-dark);
+            font-size: 13px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .box a {
+            color: var(--grass-green);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 700;
+        }
+
+        .box a:hover {
+            color: var(--grass-dark);
+        }
 
         .ftco-footer-social {
             list-style: none;
@@ -668,9 +974,11 @@
             border: 4px solid var(--dirt-brown);
             color: var(--cream);
             text-decoration: none;
-            font-size: 11px;
+            font-size: 13px;
             transition: all 0.2s;
-            box-shadow: inset 3px 3px 0 rgba(255, 255, 255, 0.2), 0 3px 0 var(--dirt-brown);
+            box-shadow: 
+                inset 3px 3px 0 rgba(255, 255, 255, 0.2),
+                0 3px 0 var(--dirt-brown);
         }
 
         .ftco-footer-social li a:hover {
@@ -678,25 +986,55 @@
             border-color: var(--grass-dark);
             color: var(--white);
             transform: translateY(-2px);
-            box-shadow: inset 3px 3px 0 rgba(255, 255, 255, 0.3), 0 5px 0 var(--grass-dark);
+            box-shadow: 
+                inset 3px 3px 0 rgba(255, 255, 255, 0.3),
+                0 5px 0 var(--grass-dark);
         }
 
-        .normal-txt { color: var(--text-dark); font-size: 11px; font-weight: 700; }
+        .ftco-footer-social li a:active {
+            transform: translateY(1px);
+            box-shadow: 
+                inset 3px 3px 0 rgba(0, 0, 0, 0.2),
+                0 2px 0 var(--dirt-brown);
+        }
 
+        .normal-txt {
+            color: var(--text-dark);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* ==================== FOOTER ==================== */
         .ftco-footer {
             background: var(--wood-brown);
             color: var(--cream);
             padding: 32px 20px;
             text-align: center;
             border-top: 6px solid var(--dirt-brown);
-            font-size: 11px;
-            box-shadow: inset 0 6px 0 rgba(255, 255, 255, 0.2), 0 -4px 8px var(--shadow);
+            font-size: 13px;
+            box-shadow: 
+                inset 0 6px 0 rgba(255, 255, 255, 0.2),
+                0 -4px 8px var(--shadow);
         }
 
-        .ftco-footer a { color: var(--sand); text-decoration: none; font-weight: 700; }
+        .ftco-footer a {
+            color: var(--sand);
+            text-decoration: none;
+            font-weight: 700;
+        }
 
-        .row { display: flex; flex-wrap: wrap; margin: 0 -10px; }
-        [class*="col-"] { padding: 0 10px; margin-bottom: 30px; }
+        /* ==================== GRID SYSTEM ==================== */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -10px;
+        }
+
+        [class*="col-"] {
+            padding: 0 10px;
+            margin-bottom: 30px;
+        }
+
         .col-md-12 { flex: 0 0 100%; max-width: 100%; }
         .col-md-7 { flex: 0 0 58.333333%; max-width: 58.333333%; }
         .col-md-6 { flex: 0 0 50%; max-width: 50%; }
@@ -708,8 +1046,11 @@
 
         .d-flex { display: flex; }
         .align-items-center { align-items: center; }
+        .align-items-stretch { align-items: stretch; }
         .justify-content-center { justify-content: center; }
+        .justify-content-end { justify-content: flex-end; }
         .text-center { text-align: center; }
+
         .mb-4 { margin-bottom: 30px; }
         .mb-5 { margin-bottom: 50px; }
         .mt-3 { margin-top: 20px; }
@@ -718,139 +1059,161 @@
         .pb-5 { padding-bottom: 50px; }
         .py-3 { padding-top: 20px; padding-bottom: 20px; }
         .px-3 { padding-left: 20px; padding-right: 20px; }
+        .px-4 { padding-left: 30px; padding-right: 30px; }
+        .px-5 { padding-left: 40px; padding-right: 40px; }
 
+        /* ==================== RESPONSIVE DESIGN ==================== */
         @media (max-width: 991px) {
-            .col-md-12, .col-md-7, .col-md-6, .col-md-4, .col-md-3, .col-lg-7, .col-lg-5, .col-lg-3 {
+            .col-md-12, .col-md-7, .col-md-6, .col-md-4, .col-md-3,
+            .col-lg-7, .col-lg-5, .col-lg-3 {
                 flex: 0 0 100%;
                 max-width: 100%;
             }
-            .hero h1 { font-size: 24px; }
-            #typing-animation { font-size: 14px; }
-            .nav-menu { flex-wrap: wrap; gap: 8px; }
-            body { font-size: 12px; }
-            .number { font-size: 28px; }
-            .skills-grid { grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 10px; }
-            .skill-tile { padding: 12px 6px; }
-            .skill-icon { font-size: 24px; }
-            .skill-name { font-size: 9px; }
-            .profile-image-container { position: relative; right: auto; bottom: auto; margin: 40px auto 0; text-align: center; }
-            .profile-image-wrapper { width: 280px; height: 360px; margin: 0 auto; }
-            .hero-content { max-width: 100%; }
-            .social-sidebar { left: 10px; gap: 8px; }
-            .social-tile { width: 50px; height: 50px; }
-            .social-tile svg { width: 24px; height: 24px; }
-            .social-tooltip { left: 60px; font-size: 10px; padding: 6px 10px; }
+
+            .hero h1 {
+                font-size: 24px;
+            }
+
+            #typing-animation {
+                font-size: 14px;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            body {
+                font-size: 12px;
+            }
+
+            .number {
+                font-size: 28px;
+            }
+
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+                gap: 10px;
+            }
+
+            .skill-tile {
+                padding: 12px 6px;
+            }
+
+            .skill-icon {
+                font-size: 24px;
+            }
+
+            .skill-name {
+                font-size: 9px;
+            }
+
+            .profile-image-container {
+                position: relative;
+                right: auto;
+                bottom: auto;
+                margin: 40px auto 0;
+                text-align: center;
+            }
+
+            .profile-image-wrapper {
+                width: 280px;
+                height: 360px;
+                margin: 0 auto;
+            }
+
+            .hero-content {
+                max-width: 100%;
+                padding: 20px;
+            }
+
+            .dark-mode-toggle {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+                bottom: 20px;
+                right: 20px;
+            }
         }
 
         @media (max-width: 768px) {
-            .ftco-section { padding: 50px 15px; }
-            .heading-section h2 { font-size: 20px; padding: 12px 20px; }
-            .block-20 { height: 180px; font-size: 40px; }
-            .navbar-brand { font-size: 13px; padding: 6px 10px; }
-            .nav-link { font-size: 11px; padding: 8px 12px; }
-            .btn { padding: 12px 20px; font-size: 11px; }
-            .hero-content { padding: 24px; }
-            body::after { height: 40px; }
-            .hero { padding: 100px 20px 60px; }
-            .theme-toggle { width: 40px; height: 40px; font-size: 16px; }
-            .social-sidebar { display: none; }
-            .profile-image-container { margin: 30px auto 0; }
-            .profile-image-wrapper { width: 240px; height: 300px; }
+            .ftco-section {
+                padding: 50px 15px;
+            }
+
+            .heading-section h2 {
+                font-size: 20px;
+                padding: 12px 20px;
+            }
+
+            .block-20 {
+                height: 180px;
+                font-size: 40px;
+            }
+
+            .navbar-brand {
+                font-size: 13px;
+            }
+
+            .nav-link {
+                font-size: 11px;
+                padding: 8px 12px;
+            }
+
+            .btn {
+                padding: 12px 20px;
+                font-size: 11px;
+            }
+
+            .hero-content {
+                padding: 24px;
+            }
+
+            body::after {
+                height: 40px;
+            }
         }
 
-        @media (max-width: 480px) {
-            .hero h1 { font-size: 20px; }
-            #typing-animation { font-size: 12px; padding: 12px; }
-            .navbar-brand { font-size: 11px; }
-            .nav-link { font-size: 10px; padding: 6px 10px; }
-            .hero-content { padding: 20px; }
-            .nav-menu { gap: 6px; }
-            .skills-grid { grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); gap: 8px; }
-            .block-18 { padding: 20px; }
-            .block-18 .number { font-size: 32px; }
-            .box { padding: 20px; }
-            .heading-section h2 { font-size: 18px; padding: 10px 16px; }
-            .big { font-size: 50px; }
-            .profile-image-wrapper { width: 200px; height: 260px; }
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .ftco-animate {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        /* Gentle hover glow */
+        @keyframes softGlow {
+            0%, 100% { box-shadow: 0 4px 8px var(--shadow); }
+            50% { box-shadow: 0 6px 12px rgba(126, 200, 80, 0.3); }
+        }
+
+        /* ==================== LOADER (Hidden) ==================== */
+        #ftco-loader {
+            display: none;
         }
     </style>
 </head>
 <body>
+    <!-- Animated Clouds -->
     <div class="cloud cloud-1"></div>
     <div class="cloud cloud-2"></div>
     <div class="cloud cloud-3"></div>
 
-    <div class="bird bird-1"><div class="bird-body"></div></div>
-    <div class="bird bird-2"><div class="bird-body"></div></div>
-    <div class="bird bird-3"><div class="bird-body"></div></div>
+    <!-- Dark Mode Toggle -->
+    <button class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle Dark Mode">
+        🌙
+    </button>
 
-    <div class="social-sidebar">
-        <a href="https://www.linkedin.com/in/shivamnsingh/" target="_blank" class="social-tile">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-            </svg>
-            <div class="particles">
-                <div class="particle particle-1"></div>
-                <div class="particle particle-2"></div>
-                <div class="particle particle-3"></div>
-                <div class="particle particle-4"></div>
-            </div>
-            <span class="social-tooltip">LinkedIn Realm</span>
-        </a>
-
-        <a href="https://github.com/shivamnsingh" target="_blank" class="social-tile">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-            </svg>
-            <div class="particles">
-                <div class="particle particle-1"></div>
-                <div class="particle particle-2"></div>
-                <div class="particle particle-3"></div>
-                <div class="particle particle-4"></div>
-            </div>
-            <span class="social-tooltip">GitHub Realm</span>
-        </a>
-
-        <a href="https://medium.com/@singhshivam11230" target="_blank" class="social-tile">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/>
-            </svg>
-            <div class="particles">
-                <div class="particle particle-1"></div>
-                <div class="particle particle-2"></div>
-                <div class="particle particle-3"></div>
-                <div class="particle particle-4"></div>
-            </div>
-            <span class="social-tooltip">Medium Realm</span>
-        </a>
-
-        <a href="https://twitter.com/shivamdgaf" target="_blank" class="social-tile">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-            <div class="particles">
-                <div class="particle particle-1"></div>
-                <div class="particle particle-2"></div>
-                <div class="particle particle-3"></div>
-                <div class="particle particle-4"></div>
-            </div>
-            <span class="social-tooltip">X Realm</span>
-        </a>
-
-        <!-- <a href="https://www.youtube.com/@godlshivam9337" target="_blank" class="social-tile">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-            </svg>
-            <div class="particles">
-                <div class="particle particle-1"></div>
-                <div class="particle particle-2"></div>
-                <div class="particle particle-3"></div>
-                <div class="particle particle-4"></div>
-            </div>
-            <span class="social-tooltip">YouTube Realm</span>
-        </a> -->
-    </div>
-
+    <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <a class="navbar-brand" href="#home-section">Shivam Singh</a>
@@ -860,10 +1223,10 @@
                 <li><a href="#project-section" class="nav-link">Projects</a></li>
                 <li><a href="#contact-section" class="nav-link">Contact</a></li>
             </ul>
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">☀️</button>
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <section id="home-section" class="hero">
         <div class="hero-container">
             <div class="hero-content">
@@ -877,14 +1240,18 @@
                 </p>
             </div>
             
+            <!-- Profile Image -->
             <div class="profile-image-container">
                 <div class="profile-image-wrapper">
-                    <img src="images/image.png" alt="Shivam Singh - Data Analyst">
+                    <!-- 🔽 REPLACE THIS URL WITH YOUR FULL PHOTO URL 🔽 -->
+                    <img src="images\image.png" alt="Shivam Singh - Data Analyst">
+                    <!-- 🔼 REPLACE THE URL ABOVE WITH YOUR FULL BODY PHOTO 🔼 -->
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- About Section -->
     <section class="ftco-section ftco-about" id="about-section">
         <div class="container">
             <div class="row">
@@ -894,7 +1261,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="about-img">
-                                        <img src="https://i0.wp.com/pokeoneguide.com/wp-content/uploads/2021/08/snorlax.png?fit=960%2C800&ssl=1" alt="Shivam Singh">
+                                        <img src="images\image2.jpg" alt="Shivam Singh">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -910,22 +1277,102 @@
                             <div class="skill-mf">
                                 <p class="title-s">Skills</p>
                                 <div class="skills-grid">
-                                    <div class="skill-tile"><div class="skill-icon">🗄️</div><div class="skill-name">SQL</div></div>
-                                    <div class="skill-tile"><div class="skill-icon">🐍</div><div class="skill-name">Python</div></div>
-                                    <div class="skill-tile"><div class="skill-icon">📊</div><div class="skill-name">Power BI</div></div>
-                                    <div class="skill-tile"><div class="skill-icon">📈</div><div class="skill-name">Tableau</div></div>
-                                    <div class="skill-tile"><div class="skill-icon">📉</div><div class="skill-name">Statistics</div></div>
-                                    <div class="skill-tile"><div class="skill-icon">🤖</div><div class="skill-name">ML</div></div>
-                                    <div class="skill-tile"><div class="skill-icon">📑</div><div class="skill-name">Excel</div></div>
-                                    <div class="skill-tile"><div class="skill-icon">🔧</div><div class="skill-name">Git</div></div>
-                                    <div class="skill-tile"><div class="skill-icon">🐼</div><div class="skill-name">Pandas</div></div>
-                                    <div class="skill-tile"><div class="skill-icon">🔢</div><div class="skill-name">NumPy</div></div>
-                                    <div class="skill-tile"><div class="skill-icon">📊</div><div class="skill-name">Matplotlib</div></div>
-                                    <div class="skill-tile"><div class="skill-icon">🌊</div><div class="skill-name">Seaborn</div></div>
-                                    <div class="skill-tile"><div class="skill-icon">🧠</div><div class="skill-name">Scikit-learn</div></div>
-                                    <div class="skill-tile"><div class="skill-icon">📐</div><div class="skill-name">SciPy</div></div>
-                                    <div class="skill-tile"><div class="skill-icon">📊</div><div class="skill-name">Plotly</div></div>
-                                    <div class="skill-tile"><div class="skill-icon">⚡</div><div class="skill-name">Apache Spark</div></div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/2772/2772165.png" alt="SQL">
+                                        </div>
+                                        <div class="skill-name">SQL</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/5968/5968350.png" alt="Python">
+                                        </div>
+                                        <div class="skill-name">Python</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/732/732220.png" alt="Power BI">
+                                        </div>
+                                        <div class="skill-name">Power BI</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/888/888850.png" alt="Tableau">
+                                        </div>
+                                        <div class="skill-name">Tableau</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/2103/2103665.png" alt="Statistics">
+                                        </div>
+                                        <div class="skill-name">Statistics</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/8618/8618881.png" alt="ML">
+                                        </div>
+                                        <div class="skill-name">ML</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/732/732220.png" alt="Excel">
+                                        </div>
+                                        <div class="skill-name">Excel</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/2111/2111288.png" alt="Git">
+                                        </div>
+                                        <div class="skill-name">Git</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/919/919853.png" alt="Pandas">
+                                        </div>
+                                        <div class="skill-name">Pandas</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png" alt="NumPy">
+                                        </div>
+                                        <div class="skill-name">NumPy</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/2103/2103658.png" alt="Matplotlib">
+                                        </div>
+                                        <div class="skill-name">Matplotlib</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/2103/2103665.png" alt="Seaborn">
+                                        </div>
+                                        <div class="skill-name">Seaborn</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/8618/8618881.png" alt="Scikit-learn">
+                                        </div>
+                                        <div class="skill-name">Scikit-learn</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png" alt="SciPy">
+                                        </div>
+                                        <div class="skill-name">SciPy</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/2103/2103658.png" alt="Plotly">
+                                        </div>
+                                        <div class="skill-name">Plotly</div>
+                                    </div>
+                                    <div class="skill-tile">
+                                        <div class="skill-icon">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/1320/1320569.png" alt="Apache Spark">
+                                        </div>
+                                        <div class="skill-name">Apache Spark</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -933,7 +1380,7 @@
                 </div>
                 
                 <div class="col-md-6 col-lg-7">
-                    <div class="heading-section">
+                    <div class="heading-section ftco-animate">
                         <h1 class="big">About</h1>
                         <h2 class="mb-4">About Me</h2>
                         
@@ -952,10 +1399,10 @@
                         </ul>
                     </div>
 
-                    <div class="counter-wrap mt-4">
+                    <div class="counter-wrap ftco-animate mt-4">
                         <div class="text">
                             <p class="mb-4">
-                                <span class="number">10</span> <span>+</span>
+                                <span class="number" data-number="30">30</span> <span>+</span>
                                 <span>&nbsp; Projects Completed</span>
                             </p>
                             <p><a href="https://www.linkedin.com/in/shivamnsingh/" class="btn btn-primary py-3 px-3">LinkedIn</a></p>
@@ -966,37 +1413,44 @@
         </div>
     </section>
 
+    <!-- Projects Section -->
     <section class="ftco-section" id="project-section">
         <div class="container">
             <div class="row justify-content-center mb-5 pb-5">
-                <div class="col-md-7 text-center">
+                <div class="col-md-7 text-center ftco-animate">
                     <h1 class="big">Projects</h1>
                     <h2 class="mb-4">Projects</h2>
                     <p>Sample Data Analytics projects on SQL, Python, Power BI & ML.</p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-4 ftco-animate">
                     <div class="blog-entry">
-                        <a href="https://github.com/shivamnsingh" class="block-20 zoom-effect"><span>🎵</span></a>
+                        <a href="https://github.com/shivamnsingh" class="block-20 zoom-effect">
+                            <span>🎵</span>
+                        </a>
                         <div class="text mt-3">
                             <h3 class="heading"><a href="https://github.com/shivamnsingh">Music Store Analysis</a></h3>
                             <p>Analyzed music store data using advanced SQL queries to identify gaps and increase business growth.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 ftco-animate">
                     <div class="blog-entry">
-                        <a href="https://github.com/shivamnsingh" class="block-20 zoom-effect"><span>🪔</span></a>
+                        <a href="https://github.com/shivamnsingh" class="block-20 zoom-effect">
+                            <span>🪔</span>
+                        </a>
                         <div class="text mt-3">
                             <h3 class="heading"><a href="https://github.com/shivamnsingh">Diwali Sales Python</a></h3>
                             <p>Performed exploratory data analysis on diwali sales data using Python to improve customer experience.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 ftco-animate">
                     <div class="blog-entry">
-                        <a href="https://github.com/shivamnsingh" class="block-20 zoom-effect"><span>📊</span></a>
+                        <a href="https://github.com/shivamnsingh" class="block-20 zoom-effect">
+                            <span>📊</span>
+                        </a>
                         <div class="text mt-3">
                             <h3 class="heading"><a href="https://github.com/shivamnsingh">Power BI Dashboard</a></h3>
                             <p>Designed a power bi dashboard to track and analyze online sales data across India.</p>
@@ -1006,18 +1460,22 @@
             </div>
             <br>
             <div class="row justify-content-center">
-                <div class="col-md-4">
+                <div class="col-md-4 ftco-animate">
                     <div class="blog-entry">
-                        <a href="https://github.com/shivamnsingh" class="block-20 zoom-effect"><span>📈</span></a>
+                        <a href="https://github.com/shivamnsingh" class="block-20 zoom-effect">
+                            <span>📈</span>
+                        </a>
                         <div class="text mt-3">
                             <h3 class="heading"><a href="https://github.com/shivamnsingh">Sales Forecasting</a></h3>
                             <p>Used multiple machine learning models to forecast sales and performed time series analysis.</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 ftco-animate">
                     <div class="blog-entry">
-                        <a href="https://github.com/shivamnsingh" class="block-20 zoom-effect"><span>👥</span></a>
+                        <a href="https://github.com/shivamnsingh" class="block-20 zoom-effect">
+                            <span>👥</span>
+                        </a>
                         <div class="text mt-3">
                             <h3 class="heading"><a href="https://github.com/shivamnsingh">Customer Clustering</a></h3>
                             <p>Developed ML model to give recommendations of financial products to target customer groups.</p>
@@ -1028,37 +1486,38 @@
         </div>
     </section>
 
+    <!-- Counter Section -->
     <section class="ftco-section ftco-counter" id="section-counter">
         <div class="container">
             <div class="row">
-                <div class="col-md-3 d-flex justify-content-center">
+                <div class="col-md-3 d-flex justify-content-center ftco-animate">
                     <div class="block-18">
                         <div class="text">
-                            <strong class="number" data-number="20">0</strong>
+                            <strong class="number" data-number="20">20</strong>
                             <span>Achievements</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 d-flex justify-content-center">
+                <div class="col-md-3 d-flex justify-content-center ftco-animate">
                     <div class="block-18">
                         <div class="text">
-                            <strong class="number" data-number="30">0</strong>
+                            <strong class="number" data-number="30">30</strong>
                             <span>Projects</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 d-flex justify-content-center">
+                <div class="col-md-3 d-flex justify-content-center ftco-animate">
                     <div class="block-18">
                         <div class="text">
-                            <strong class="number" data-number="50">0</strong>
+                            <strong class="number" data-number="50">50</strong>
                             <span>+ Datasets Analyzed</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 d-flex justify-content-center">
+                <div class="col-md-3 d-flex justify-content-center ftco-animate">
                     <div class="block-18">
                         <div class="text">
-                            <strong class="number" data-number="15">0</strong>
+                            <strong class="number" data-number="15">15</strong>
                             <span>+ Dashboards Created</span>
                         </div>
                     </div>
@@ -1067,25 +1526,27 @@
         </div>
     </section>
 
+    <!-- GitHub Section -->
     <div class="ftco-section ftco-hireme">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-7 text-center">
+                <div class="col-md-7 text-center ftco-animate">
                     <h2>More Projects on Github</h2>
                     <div class="heading">
                         <h4>I love to solve business problems & uncover hidden data stories</h4>
                         <br>
-                        <p><a href="https://github.com/shivamnsingh" class="btn btn-primary py-3 px-3">GitHub</a></p>
+                        <p><a href="https://github.com/shivamnsingh" class="btn btn-primary py-3 px-5">GitHub</a></p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Contact Section -->
     <section class="ftco-section contact-section" id="contact-section">
         <div class="container">
             <div class="row justify-content-center mb-5 pb-3">
-                <div class="col-md-7 text-center">
+                <div class="col-md-7 text-center ftco-animate">
                     <h1 class="big">Contact</h1>
                     <h2 class="mb-4">Contact Me</h2>
                     <p>Details to reach out to me!</p>
@@ -1093,27 +1554,39 @@
             </div>
 
             <div class="row">
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-3 ftco-animate">
                     <div class="box text-center">
-                        <h3 class="mb-4">📍 Address</h3>
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <span>📍</span>
+                        </div>
+                        <h3 class="mb-4">Address</h3>
                         <p>Kalyan, Maharashtra, India</p>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-3 ftco-animate">
                     <div class="box text-center">
-                        <h3 class="mb-4">📧 Email</h3>
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <span>📧</span>
+                        </div>
+                        <h3 class="mb-4">Email</h3>
                         <p><a href="mailto:singhshivam11230@gmail.com">singhshivam11230@gmail.com</a></p>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-3 ftco-animate">
                     <div class="box text-center">
-                        <h3 class="mb-4">💼 LinkedIn</h3>
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <span>💼</span>
+                        </div>
+                        <h3 class="mb-4">LinkedIn</h3>
                         <p><a href="https://www.linkedin.com/in/shivamnsingh/">Connect with me</a></p>
                     </div>
                 </div>
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-3 ftco-animate">
                     <div class="box text-center">
-                        <h3 class="mb-4">📄 Resume</h3>
+                        <div class="icon d-flex align-items-center justify-content-center">
+                            <span>📄</span>
+                        </div>
+                        <h3 class="mb-4">Resume</h3>
                         <p><a href="#">Download CV</a></p>
                     </div>
                 </div>
@@ -1121,8 +1594,8 @@
                 <div class="col-md-12">
                     <br><br>
                     <div class="row justify-content-center">
-                        <div class="col-md-7 text-center">
-                            <h2>Have a Question? <a href="https://forms.gle/ZWMPgetFBq1HjH8r9" class="btn btn-primary py-3 px-3">Click Here</a></h2>
+                        <div class="col-md-7 text-center ftco-animate">
+                            <h2>Have a Question? <a href="https://forms.gle/uLaTShUKXraAvHJ77" class="btn btn-primary py-3 px-5">Click Here</a></h2>
                         </div>
                     </div>
                     <br>
@@ -1138,6 +1611,7 @@
         </div>
     </section>
 
+    <!-- Footer -->
     <footer class="ftco-footer ftco-section">
         <div class="container">
             <div class="row">
@@ -1149,29 +1623,9 @@
     </footer>
 
     <script>
-        const themeToggle = document.getElementById('themeToggle');
-        const htmlElement = document.documentElement;
-        
-        const currentTheme = localStorage.getItem('theme') || 'light';
-        htmlElement.setAttribute('data-theme', currentTheme);
-        themeToggle.textContent = currentTheme === 'dark' ? '🌙' : '☀️';
-        
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = htmlElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            htmlElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            themeToggle.textContent = newTheme === 'dark' ? '🌙' : '☀️';
-            
-            themeToggle.style.transform = 'scale(0.9)';
-            setTimeout(() => {
-                themeToggle.style.transform = 'scale(1)';
-            }, 100);
-        });
-
+        // Typing Animation
         const typingAnimationElement = document.getElementById('typing-animation');
-        const typingTexts = ['Junior Data Analyst', 'Aspiring Data Scientist', 'Student', 'SQL Expert'];
+        const typingTexts = ['Student', 'YouTuber', 'Teacher', 'Data Analyst'];
         let textIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
@@ -1203,6 +1657,25 @@
 
         typeText();
 
+        // Dark Mode Toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+        darkModeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+        darkModeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            darkModeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+        });
+
+        // Counter Animation
         function animateCounter(element) {
             const target = parseInt(element.getAttribute('data-number'));
             let current = 0;
@@ -1218,7 +1691,10 @@
             }, 30);
         }
 
-        const observerOptions = { threshold: 0.5 };
+        // Intersection Observer for counters
+        const observerOptions = {
+            threshold: 0.5
+        };
 
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1238,6 +1714,7 @@
             observer.observe(counterSection);
         }
 
+        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1252,4 +1729,29 @@
         });
     </script>
 </body>
-</html>
+</html>hover {
+            background: var(--sand);
+            transform: translateY(-6px);
+            box-shadow: 
+                inset 4px 4px 0 rgba(255, 255, 255, 0.5),
+                0 12px 20px rgba(126, 200, 80, 0.25);
+        }
+
+        .icon {
+            width: 60px;
+            height: 60px;
+            background: var(--grass-green);
+            border: 5px solid var(--grass-dark);
+            margin: 0 auto 18px;
+            font-size: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 
+                inset 3px 3px 0 rgba(255, 255, 255, 0.35),
+                0 4px 0 var(--grass-dark);
+            color: var(--white);
+        }
+
+        .box:
